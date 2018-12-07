@@ -21,7 +21,7 @@ def gnxtltr(steps,post,pre,ltrs,lt,num):
         return(steps[ch])
    return ''
     
-f = open('18-7text.py','r')
+f = open('18-7.txt','r')
 #f = open('18-7test.txt','r')
 b = f.read().split('\n')
 
