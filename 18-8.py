@@ -1,11 +1,11 @@
 s = map(int, open('18-8.txt').read().split())
-i = 0
+ind = 0
 
 def getnext():
-  global i
+  global ind
   global s
-  i += 1  
-  return s[i-1]
+  ind = ind + 1  
+  return s[ind-1]
 
 def readtree():
   numberofchilden = getnext()
@@ -41,8 +41,6 @@ def sumspecial(branch):
         specialtotal += sumspecial(children[metadata[m]-1])        
   return specialtotal
 
-print s
 root = readtree()
-print summetadata(root)
-print sumspecial(root)
-
+print 'part 1 -', summetadata(root)
+print 'part 2 -', sumspecial(root)
