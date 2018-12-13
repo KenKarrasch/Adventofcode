@@ -1,5 +1,6 @@
 ls = open('18-12.txt','r').read().split('\n')
 # This puzzle is similar to Conways game of life. Keep generating until we get a steady growth rate, then extraploate 50 billion times.  The steady state is similar to a 'walker' in game of life.  The walker drifts to the right adinfinitum.
+# At first I was excited when I spotted what appeared to be a factory generating walkers, then despair when the factory appeared to be growing. Then after 109 generations the whole factory turned into a bunch walkers, even better.
 pad = '.' * 1000
 init = pad + ls[0].split(':')[1][1:]+ pad
 rules = []
