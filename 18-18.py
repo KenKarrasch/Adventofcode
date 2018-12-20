@@ -1,6 +1,6 @@
 ydf = open('18-19.txt','r').read().split('\n')
-# Trick to part b, calculate the lum*tree figure for the first 1000 minutes. Compare the 1000th minute with previous minutes, 
-#  notice that pattern is cyclic.  Workout the cycle time (mine was 28 minutes).  Extrapolate to a billion minutes.
+# Trick to part b, calculate the lum*tree figure for each minute, store in an array, at each minute check back to see if 
+# the lum*tree figure has occurred before. When a repeat is found workout the cycle time (mine was 28 minutes).  Extrapolate to a billion minutes.
 def gcoord(x,y,yd):
     if x < 0:
         return ''
