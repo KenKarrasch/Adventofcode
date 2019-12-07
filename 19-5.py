@@ -34,7 +34,7 @@ for g in [1,2]:
       if a(i,1): op += 1
       else: op = a(i,2)-2
     if o == '07':
-      if a(i,1) < a(i,2): f[a1] = 1
+      if a(i,1) < a(i,2): f[a3] = 1
       else: f[a3] = 0
       op += 2
     if o == '08':
