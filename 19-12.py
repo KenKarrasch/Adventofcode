@@ -50,7 +50,8 @@ def up(p,v):
    
 xs,ys,zs = [],[],[]
 cy = [0,0,0]
-for u in range(300000):
+u = 0
+while min(cy) == 0:
     if u%50000 == 0:
      print u
     nv = uv(p,v)
@@ -96,6 +97,7 @@ for u in range(300000):
      for a in range(len(p)):
       tot += tv[a]*tp[a]
      print 'part 1 -', tot
+    u += 1
 
 def flcm(a, b):
     return a * b // gcd(a, b)
