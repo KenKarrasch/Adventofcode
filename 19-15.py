@@ -8,6 +8,7 @@ import collections
 # Below is the map S is start, O is the Oxygen
 
 # Part 2- Did the same thing with part 2. Kept on following paths until I found the furthest one.
+# Still no general solution yet:(
 
 #___######________###########____________
 #__#.......______#...........#___________
