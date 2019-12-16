@@ -8,7 +8,10 @@ import collections
 # Below is the map S is start, O is the Oxygen
 
 # Part 2- Did the same thing with part 2. Kept on following paths until I found the furthest one.
-# Still no general solution yet:(
+#  (I did this by adjusting continuously adjusting variables 'path', 'rob', and 'banned'. Then looking 
+# at the length of 'nbpath' to see how far the robot had travelled.)
+
+# Still no general solution yet :(
 
 #___######________###########____________
 #__#.......______#...........#___________
@@ -48,8 +51,6 @@ import collections
 #______________#.....#___________________
 #_______________#####____________________
 
-
-# part 1 only
 
 r = list(map(int, open('19-15.txt').read().split(',')))
 
