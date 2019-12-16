@@ -7,6 +7,7 @@ import collections
 # When dead ends were found, I blocked them off with a 'banned' list, then ran the algorithm again.
 # Below is the map S is start, O is the Oxygen
 
+# Part 2- Did the same thing with part 2. Kept on following paths until I found the furthest one.
 
 #___######________###########____________
 #__#.......______#...........#___________
