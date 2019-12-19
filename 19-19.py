@@ -1,6 +1,6 @@
 with open('19-19.txt') as fp: pr = { i: int(x) for i, x in enumerate(fp.readline().split(',')) }
 
-# Nice easy one, borrowed the Intcode because my one wasn't working for some reason.
+# Nice easy one
 
 
 def cmd(x,y):
