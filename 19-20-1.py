@@ -3,6 +3,7 @@ import collections
 r = open('19-20.txt').read().split('\n')
 
 # Used Floodfill algorithm, (aka Breadth first search)
+# Did some preprocessing to remove deadends
 
 def printgn(w,n):
  for li in range(len(w)):
