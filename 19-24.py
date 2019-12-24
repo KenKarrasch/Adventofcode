@@ -1,6 +1,5 @@
 rb = open('19-24.txt').read().split('\n')
-# Part 2 only
-# Rank 679/587, this may be my best score.
+# Rank 679/587
 # Fairly straightforward puzzle, probably designed for the kids,
 # good one for doing after work.  Learning for me - exception handling.
 
@@ -30,7 +29,7 @@ def geth(x,y,r):
   if (x > -1) and (x < 5) and (y > -1) and (y < 5):
     return r[x][y]
   else: return 0
-  
+
 def gethb(x,y,bgs,b,fx,fy):
   if (b < 0) or (b > len(bgs)-2):
       return 0  
@@ -67,10 +66,60 @@ def gethb(x,y,bgs,b,fx,fy):
   except:
     print(b,x,y)
 
+     
 d = [[0,1],[1,0],[0,-1],[-1,0]]
 br = [b[:] for b in r]
 bgs = []
+bgs.append(br)
+dup = False
+while not dup:
+ nr = [b[:] for b in r]
+ for x in sz:
+  for y in sz:
+     adj = 0
+     for ad in d:        
+        if geth(x+ad[0],y+ad[1],r):
+          adj += 1
+     if r[x][y] == 1:
+        if adj == 1:
+          nr[x][y] = 1
+        else: nr[x][y] = 0            
+     if r[x][y] == 0:
+        if (adj == 1) or (adj == 2):
+          nr[x][y] = 1
+ ad = [b[:] for b in nr]
+ for a in bgs:
+  bad = False
+  for x in sz:
+    for y in sz:
+      if a[x][y] != ad[x][y]:
+        bad = True
+  if bad == False:
+    dup = True
+    tot = 0
+    for x in sz:
+      for y in sz:
+        if ad[x][y] == 1:
+          num = 5*x + y
+          tot += 2**num
+    print('part 1 -',tot)
+    done = True
+ bgs.append([b[:] for b in nr])
+ r = [b[:] for b in nr]
 
+r = []
+for a in sz:
+    ln = []
+    for b in sz:      
+      if rb[a][b] == '#':
+          ch = 1
+      else: ch = 0
+      ln.append(ch)
+    r.append(ln)
+    
+br = [b[:] for b in r]
+nr = []
+bgs = []
 ms = 200
 mms = (2*ms) + 1
 for a in range(mms):
