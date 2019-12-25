@@ -1,6 +1,8 @@
 import sys
 import collections
 
+# Fairly straightforward once I displayed the output properly.
+# Tried to do it manually by parts, but arithmetic failed me.
 
 r = list(map(int, open('19-17.txt').read().split(',')))
 
@@ -16,9 +18,10 @@ def gmd(m,rb):
     if m[0] == '2': a3 = rb
     return([a1,a2,a3])
 
-def docmd(r,input):
+def docmd(r,input,mode):
     f = collections.defaultdict(lambda: 0, enumerate(r))
     outputs,dr,rob,op,rb = [],0,(0,0),0,0
+    f[0] = mode
     ps = {(0,0):4}
     inp = input[:]
     while f[op] != 99:
@@ -42,11 +45,12 @@ def docmd(r,input):
             f[a3+f[op+3]] = op1*op2
             op += 2
         if o == '03':
+            if len(inp) == 0:
+                return outputs
             f[a1+f[op+1]] = inp[0]
             inp.pop(0)
         if o  == '04':
-            outputs.append(op1)            
-            
+            outputs.append(op1)  
         if o == '05':
             if op1 != 0:
                 op = op2 - 2
@@ -71,76 +75,57 @@ def docmd(r,input):
             op += 2
         if o == '09': rb += op1
         op += 2
-
     return outputs
-     
-found = False
-ct = 0
 
-if True:
-      c = docmd(r,[])
-      print len(c)
-      #print c
+def printmap(c):
       x = y = h = 0
-      w = []
-      nmap = {}
+      w,nmap = [], {}      
       for g in c:
-        if g == 35:
-          nmap[(x,y)] = g
-          x += 1
-        if g == 46:
-          nmap[(x,y)] = g
-          x += 1
+        if not g == 10:             
+         nmap[(x,y)] = chr(g)
+         x += 1          
         if g == 10:
           y += 1
-          #print x,w
           w.append(x)
           x = 0
-      h = y
-      w = max(w)
-      print 'w',w,'h',h
-      #print nmap.keys()
+      h,w = y, max(w)      
       for y in range(h):
-        line = ""
-        
+        line = ""        
         for x in range(w):
           if (x,y) in nmap:
-            bt = nmap[(x,y)]
-            if bt == ord('#'):              
-              ch = '#'
-            elif bt == ord('.'):                
-              ch = '_'
-            elif bt == ord('>'):                
-              ch = '>'
-            elif bt == ord('<'):                
-              ch = '<'
-            elif bt == ord('^'):                
-              ch = '^'
-            elif bt == ord('v'):                
-              ch = 'v'
-            elif bt == ord('X'):                
-              ch = 'X'
-            line += ch
+           line += str(nmap[(x,y)])+' '
           else:
-            line += '_'
+           line += '_'            
         print(line)
-      amt = 0
-      for a in nmap.keys():
-        x = a[0]
-        y = a[1]
-        #print x,y
-        
-        if ((x+1,y) in nmap) and\
-           ((x-1,y) in nmap) and\
-           ((x,y+1) in nmap) and\
-           ((x,y-1) in nmap):
-         if nmap[(x,y)] != ord('#'): continue
-         if nmap[(x+1,y)] == nmap[(x-1,y)] == nmap[(x,y+1)] == nmap[(x,y-1)] == 35:
-            print x,y
-            amt += x*y
-      print amt
-         
-         
-         
-         
-         
+      return nmap
+
+c = docmd(r,[],1)
+nmap = printmap(c)
+amt = 0
+for a in nmap.keys():
+  x = a[0]
+  y = a[1]        
+  if ((x+1,y) in nmap) and\
+     ((x-1,y) in nmap) and\
+     ((x,y+1) in nmap) and\
+     ((x,y-1) in nmap):
+   if nmap[(x,y)] != '#': continue
+   if nmap[(x+1,y)] == nmap[(x-1,y)] == nmap[(x,y+1)] == nmap[(x,y-1)] == '#':
+     amt += x*y
+print('part 1 -',amt)
+
+full = 'R,10,R,8,L,10,L,10, R,8,L,6,L,6, R,8,L,6,L,6, R,10,R,8,L,10,L,10, L,10,R,10,L,6, R,8,L,6,L,6, L,10,R,10,L,6, L,10,R,10,L,6, R,8,L,6,L,6, R,10,R,8,L,10,L,10'
+       # A                  B            B            A                   C              B            C              C              B            A
+
+mr = ['A,B,B,A,C,B,C,C,B,A',\
+      'R,10,R,8,L,10,L,10', \
+      'R,8,L,6,L,6', \
+      'L,10,R,10,L,6', \
+      'n']
+
+inp = []
+for b in mr:
+  for a in b: inp.append(ord(a))
+  inp.append(10)
+c = docmd(r,inp,2)
+print('part 2 -',c[-1:])
