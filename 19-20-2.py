@@ -3,8 +3,22 @@ import collections
 # part 2 only
 r = open('19-20.txt').read().split('\n')
 
-# Used Floodfill technique. Did some optimisation of code to make it faster.  It could be done much, much faster using caching 
-# and a network, similar to day 18. The number of doughnuts explored got to depth 120. Processing time was 12 mins.
+# Uses a basic Floodfill technique.
+#
+# It creates 200 empty mazes, one for each doughnut length, maze 0 is the top level maze.  At each empty space it 
+# puts a 0 initially.
+#
+# At AA it puts a 1, then it searches each cell around that and puts a 2, then each cell around the 2's it puts 
+# a 3 (if there is not already a number lower), and so on. When it reaches a portal it floods into the new maze at the 
+# new different level. Eventually it snakes back to the top level ZZ.
+#
+# Did some optimisation of code to make it a little faster.  Keeps track of the maximum depth so know not to evaluate any deeper.
+# Prepared a list of empty spaces, instead of searching every coordinate.
+#
+# It is acknowledged it could be done much, much faster using caching and a network, similar to day 18. 
+#
+# The trek from AA to ZZ takes about 7500 steps.
+# The number of doughnuts explored got to depth 120. Processing time was 12 mins.
 
 def printgn(w,n):
  for li in range(len(w)):
@@ -179,10 +193,9 @@ while not done:
             code = l[(x,y)]
             if (code == 'ZZ') and (mz == 0):
                 print ('finished',depth)
-                print ('part 2 - ',x,y,code,depth-1)
-                break
+                print ('part 2 - ',depth-1,mzmax)
                 done = True
-                printgn(r,n)
+                break
             for a in l:
               if code == l[a]:
                 if a != (x,y):
