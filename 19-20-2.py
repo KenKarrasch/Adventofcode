@@ -3,7 +3,8 @@ import collections
 # part 2 only
 r = open('19-20.txt').read().split('\n')
 
-# Straightforward extension of part 1
+# Used Floodfill technique. Did some optimisation of code to make it faster.  It could be done much, much faster using caching 
+# and a network, similar to day 18. The number of doughnuts explored got to depth 120. Processing time was 12 mins.
 
 def printgn(w,n):
  for li in range(len(w)):
@@ -45,7 +46,6 @@ def findl(r):
          p = (sz-3,i)
          st,end = se(s,p,st,end)
          if s[0] in uc: l[p] = s
-      #line += r[i][sz+4]
       if r[i][sz+4]:
          s = r[i][sz+4] + r[i][sz+5]
          p = (i,sz+3)
@@ -110,10 +110,18 @@ def inrange(x,y,sz):
     return False
 
 
+def getnodes(n):
+    for a in n:
+        print (a)
+
+
 szx = len(r[0])
 szy = len(r)
 
 r = deadends(r)
+
+
+
 l,st,end = findl(r)
 
 done = False
@@ -121,24 +129,45 @@ m = [[0,1],[0,-1],[1,0],[-1,0]]
 depth = 1
 codef = False
 n = [[0 for a in g] for g in r]
+
+
 n[st[0]][st[1]] = 1
+
+for a in l:
+    print(l[a],a)
     
 def edge(x,y,szx,szy):
     if (x == 2) or (x == szx-9) or \
        (y == 2) or (y == szy+3):
         return -1
     else: return 1
+
 n = []
-for a in range(64):
+for a in range(200):
     mz = [[0 for a in g] for g in r]
     if a == 0:
         mz[st[0]][st[1]] = 1
     n.append(mz)
 
+dots = {}
+
+
+for a in range(szx):
+ for b in range(szy):       
+   if r[b][a] == '.':
+     dots[(a,b)] = True
+
+print(len(dots))
+print(szx*szy)
+
+
+mzmax = 2
 while not done:        
    for mz in range(len(n)):
-    for x in range(1,szy):
-      for y in range(1,szx):
+    if mz <= mzmax:   
+     for a in dots:
+        x = a[1]
+        y = a[0]
         ni = n[mz]
         if ni[x][y] == depth:
           for s in [0,1,2,3]:          
@@ -150,7 +179,8 @@ while not done:
             code = l[(x,y)]
             if (code == 'ZZ') and (mz == 0):
                 print ('finished',depth)
-                print ('part 2 - ',x,y,code,depth)
+                print ('part 2 - ',x,y,code,depth-1)
+                break
                 done = True
                 printgn(r,n)
             for a in l:
@@ -158,6 +188,8 @@ while not done:
                 if a != (x,y):
                   e = edge(x,y,szx,szy)
                   if  (e == 1):
+                    if mzmax < mz+1:
+                        mzmax = mz+1
                     ni = n[mz+1]                   
                     ni[a[0]][a[1]] = depth+1
                   if (mz != 0) and (e == -1):
@@ -166,7 +198,9 @@ while not done:
                     
    if depth % 1000 == 0:
        for mzn in range(len(n[:5])):
+           print('depth',depth)
            print('maze',mzn)
            printgn(r,n[mzn])
    depth += 1
     
+
