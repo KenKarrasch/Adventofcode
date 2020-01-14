@@ -1,7 +1,6 @@
 import sys
 import collections
-# part 2 only
-r = open('19-20.txt').read().split('\n')
+import datetime
 
 # Uses a basic Floodfill technique.
 #
@@ -17,10 +16,14 @@ r = open('19-20.txt').read().split('\n')
 #
 # It is acknowledged it could be done much, much faster using caching and a network, similar to day 18. 
 #
-# The trek from AA to ZZ takes about 7500 steps.
-# The number of doughnuts explored got to depth 120. Processing time was 12 mins.
+# The trek from AA to ZZ takes 7658 steps.
+# The number of doughnuts explored got to depth 120. The end was found it was exploring 2467 paths.
+# Processing time was 1 min.
+
+r = open('19-20.txt').read().split('\n')
 
 def printgn(w,n):
+ 
  for li in range(len(w)):
   s = ''
   for c in range(len(w[li])):
@@ -34,17 +37,30 @@ def printgn(w,n):
         ch = str(n[li][c]%10)
     s += ch
   print(s)
+  
+def printg(w,n):
+ for li in range(len(w)):
+  s = ''
+  for c in range(len(w[li])):
+    ch = w[li][c]
+    if ch == '.':
+      ch = '_'
+      r = (li,c)
+    s += ch
+  print(s)
 
-def findl(r):
+def findl(r,szx,szy):
    l = {}
-   sz = len(r)
    st = end = (0,0)
+   sz = szy
    uc = 'QWERTYUIOPASDFGHJKLZXCVBNM'
-   d = [[0,1],[sz,sz-1,sz-2]]
-   m = 35
+   m = 35 #38 to 97 = 49
    line = ''
+   sz = min(szx,szy)
    for i in range(sz):
-     if True:      
+       #ken szx=133, szy=127 
+       #dave szx=129, szy=135
+     if True:
       if r[i][0]:
          s = r[i][0] + r[i][1]
          p = (i,2)
@@ -55,28 +71,28 @@ def findl(r):
          p = (2,i)
          st,end = se(s,p,st,end)
          if s[0] in uc: l[p] = s
-      if r[sz-1][i]:
-         s = r[sz-2][i] + r[sz-1][i]
-         p = (sz-3,i)
+      if r[szy-1][i]:
+         s = r[szy-2][i] + r[szy-1][i]
+         p = (szy-3,i)
          st,end = se(s,p,st,end)
          if s[0] in uc: l[p] = s
-      if r[i][sz+4]:
-         s = r[i][sz+4] + r[i][sz+5]
-         p = (i,sz+3)
+      if r[i][szx-2]:
+         s = r[i][szx-2] + r[i][szx-1]
+         p = (i,szx-3)
          st,end = se(s,p,st,end)
          if s[0] in uc: l[p] = s 
-     if (i > m) and (i < sz-m):
-       if r[i][2+sz-m]:
-         s = r[i][2+sz-m] + r[i][3+sz-m]
-         p = (i,4+sz-m)
+     if (i > m) and (i < szy-m):
+       if r[i][szx-(m+4)]:
+         s = r[i][szx-(m+4)] + r[i][szx-(m+3)]
+         p = (i,szx-(m+2))
          st,end = se(s,p,st,end)
          if s[0] in uc: l[p] = s
-       if r[sz-m+1][i]:
-         s = r[sz-m-4][i] + r[sz-m-3][i]
-         p = (sz-m-2,i)
+       if r[szy-(m+3)][i]:
+         s = r[szy-m-4][i] + r[szy-m-3][i]
+         p = (szy-m-2,i)
          st,end = se(s,p,st,end)
          if s[0] in uc: l[p] = s
-       if r[m-1][i]:
+       if r[m+2][i]:
          s = r[m+2][i] + r[m+3][i]
          p = (m+1,i)
          st,end = se(s,p,st,end)
@@ -132,29 +148,27 @@ def getnodes(n):
 szx = len(r[0])
 szy = len(r)
 
+print(szx,szy)
+
 r = deadends(r)
-
-
-
-l,st,end = findl(r)
+printg(r,[])
+l,st,end = findl(r,szx,szy)
+print('l,st,end',l,st,end)
 
 done = False
 m = [[0,1],[0,-1],[1,0],[-1,0]]
 depth = 1
-codef = False
 n = [[0 for a in g] for g in r]
-
 
 n[st[0]][st[1]] = 1
 
-for a in l:
-    print(l[a],a)
-    
-def edge(x,y,szx,szy):
-    if (x == 2) or (x == szx-9) or \
-       (y == 2) or (y == szy+3):
-        return -1
-    else: return 1
+def edge(x,y,w,l,code):
+    #dave 129,135 (132,126), ken 133,127 (124,130)
+    if (x == 2) or (x == l-3) or \
+       (y == 2) or (y == w-3):
+        return -1 #outer edge
+    else:        
+        return 1 # inner edge
 
 n = []
 for a in range(200):
@@ -163,57 +177,63 @@ for a in range(200):
         mz[st[0]][st[1]] = 1
     n.append(mz)
 
-dots = {}
-
-
-for a in range(szx):
- for b in range(szy):       
-   if r[b][a] == '.':
-     dots[(a,b)] = True
-
-print(len(dots))
 print(szx*szy)
 
+print(datetime.datetime.now())
 
+layer = [[st[0],st[1],0]]
 mzmax = 2
-while not done:        
-   for mz in range(len(n)):
-    if mz <= mzmax:   
-     for a in dots:
-        x = a[1]
-        y = a[0]
-        ni = n[mz]
-        if ni[x][y] == depth:
+mz = 0
+layers = []
+while not done:
+   layers.append(len(layers))
+   nlayer = []
+   for ly in layer:
+      mz = ly[2]
+      cd = (ly[1],ly[0])
+      if True:
+          x = cd[1]
+          y = cd[0]
+          ni = n[mz]
           for s in [0,1,2,3]:          
-             if r[x+m[s][0]][y+m[s][1]] == '.':
+            if r[x+m[s][0]][y+m[s][1]] == '.':
               ni = n[mz]  
               if ni[x+m[s][0]][y+m[s][1]] == 0:
                  ni[x+m[s][0]][y+m[s][1]] = depth+1
+                 nlayer.append([x+m[s][0],y+m[s][1],mz])
           if (x,y) in l:            
             code = l[(x,y)]
             if (code == 'ZZ') and (mz == 0):
-                print ('finished',depth)
-                print ('part 2 - ',depth-1,mzmax)
+                printgn(r,n[0])
+                print ('part 2 - ',depth-1)
+                print ('maxdepth',mzmax)
+                print('was exploring', len(layer),'paths when ZZ was found')
+                print(datetime.datetime.now())                
                 done = True
                 break
+                printgn(r,n)
             for a in l:
               if code == l[a]:
-                if a != (x,y):
-                  e = edge(x,y,szx,szy)
+                if a != (x,y): 
+                  e = edge(x,y,szx,szy,code)                
                   if  (e == 1):
                     if mzmax < mz+1:
                         mzmax = mz+1
+                        #print('mzmax',mzmax,e,a,(x,y), szx,szy)
                     ni = n[mz+1]                   
-                    ni[a[0]][a[1]] = depth+1
+                    ni[a[0]][a[1]] = depth+1                              
+                    nlayer.append([a[0],a[1],mz+1])
                   if (mz != 0) and (e == -1):
                     ni = n[mz-1] 
-                    ni[a[0]][a[1]] = depth+1
+                    ni[a[0]][a[1]] = depth+1                              
+                    nlayer.append([a[0],a[1],mz-1])
                     
    if depth % 1000 == 0:
-       for mzn in range(len(n[:5])):
+       for mzn in range(3):
            print('depth',depth)
-           print('maze',mzn)
+           print('doughnut',mzn)
+           print('exploring', len(layer),'paths')
            printgn(r,n[mzn])
    depth += 1
-    
-
+   layer = []
+   for nl in nlayer: layer.append(nl)
