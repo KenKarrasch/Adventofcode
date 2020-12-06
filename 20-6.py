@@ -1,8 +1,8 @@
 s = open('20-6.txt').read().split('\n\n')
 
-# nice 10m puzzle, couldn't start on time due to sporting commitments
-# I forgot to reset my c counter, it cost me a minute or two.
-# I have probably done it the hardest posible way, I'm betting the puzzle
+# nice 20m puzzle (10m each part)
+# I forgot to reset the counter between parts, it cost me a minute or two.
+# I have probably done it the hardest and slowest possible way, n squared, I'm betting the puzzle
 # could be done in one line of Python code. 
 
 def gord(char):
