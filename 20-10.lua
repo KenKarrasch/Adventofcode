@@ -2,7 +2,10 @@ f = io.open("20-10.txt","r")
 -- written in lua. (with some python)
 -- I heeded the warnings in the puzzle and
 -- didn't make the mistake of writing a recursive algorithm for
--- this one.
+-- this one. 
+-- [EDIT: It appears that a recursive algorithm would have been better 
+-- afterall see 'DP' Dynamic Programming on reddit]
+
 -- noticed that the answer was likely to be a multiplication
 -- of combinations. The solution looks for runs
 -- of 1s advances. Each run of ones
