@@ -3,13 +3,17 @@ f = io.open("20-11.txt","r")
 -- straightforward puzzle
 -- learned some new things (and pitfalls) about Lua,
 -- local variables,
--- multidimensional arrays, string manipulation
+-- multidimensional arrays, string manipulation, functions 
 -- executes in 7 secs, which isn't
 -- particularly fast.
+
 
 -- would be intereseted in how
 -- this compares to other languages, maybe
 -- the data types used are slow
+
+-- made the mistake of not copying the input file 
+-- properly, this costed me several minutes
 
 ar = {{-1,-1},{-1,0},{-1,1},{0,-1},{0,1},{1,-1},{1,0},{1,1}}
 a, i = {},1
