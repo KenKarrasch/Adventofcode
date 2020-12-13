@@ -17,11 +17,7 @@ bs = s[1].split(',')
 # The [5,7] pair of buses is equivalent to one bus at
 # the 20min mark every 35 mins.
 
-# In other words 5,7 is equivalent 
-# to x,x,x,x,x, x,x,x,x,x, x,x,x,x,x, x,x,x,x,35
-
 # Then add another number say 13, the problem becomes 5,7,13
-# or x,x,13,x,x, x,x,x,x,x, x,x,x,x,x, x,x,x,x,35
 
 # Then do the [13, 35] pair of busses. bus '13' arriving at t+3 mins
 # and bus '35' arriving at t+20mins
