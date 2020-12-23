@@ -4,8 +4,27 @@ file = '20-22.txt'
 f = open(file).read().split('\n\n')
 
 # quite slow, about a 1 minute to run
-# Had trouble dealing with handling infinite loop
-# Made use of memoization to save time.
+# The example worked, but had trouble dealing with handling 
+# infinite loop.
+
+# I made the mistake of assuming that if a hand has been seen
+# that player simply wins the round or the two cards.  Of course
+# what was mean't to happen is player 1 wins the whole game.
+
+# In hindsight my approach there was a 50% chance my assumption 
+# would never have worked anyway.
+
+# I should have read the problem in full detail, every word counts, 
+# it was even highlighted.
+
+# Frustrated because this was the first game where I have had
+# to read the forums for clarification on the question.
+
+# So far all of my other solutions have been squeaky clean.
+# (Day 13 pt 2 doesn't count because I didnt actually use 
+# anything from the forum).
+
+# On the bright side I got to learn something.
 
 p = []
 
