@@ -5,6 +5,7 @@
 # to access its elements.  Quick to reference the destination (which was killing
 # the array implementation).  No idea how they got the dict array to work so fast, probably
 # some sort of hashing function I guess.  Made use tuple for swapping links around.
+# pypy calculates an answer pt1&2 in about 1.5 secs.
 # I had an 'out by one' error, which costed some time.
 
 file = '20-23.txt'
