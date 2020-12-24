@@ -1,12 +1,10 @@
-import time
-
 # Started out using an array to swap around memory bits, but found it was too slow,
-# It would have taken about a year to calculate
+# It would have taken about a year to calculate.
 
 # Made use of 'dict' class data structure to implement a linked list, very quick
-# to access its elements.  Quick to reference the destination.  No idea how
-# they got it work so fast, some sort of hashing function I guess.  Made use
-# tuple for swapping links around.
+# to access its elements.  Quick to reference the destination (which was killing
+# the array implementation).  No idea how they got the dict array to work so fast, probably
+# some sort of hashing function I guess.  Made use tuple for swapping links around.
 # I had an 'out by one' error, which costed some time.
 
 file = '20-23.txt'
