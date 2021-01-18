@@ -1,6 +1,6 @@
 f = [int(x) for x in open('15-24.txt').read().split('\n')]
 # There are many possible shortcuts, this solution
-# takes time to prove the results 
+# takes time to prove the results, take about 30 seconds to run
 t = sum(f)/3
 q = sum(f)/4
 tly = [0]
@@ -23,7 +23,6 @@ def okay(nf,sm,gr,t):
            return False
          return True
     return False
-      
 
 def gf(nf,sm,qe,st,spl):
     if len(st) == depth[0]:
@@ -43,12 +42,38 @@ def gf(nf,sm,qe,st,spl):
     if len(st) < depth[0]:
       for b in range(len(nf)):         
          gf(nf[:b]+nf[b+1:],sm+nf[b],qe*nf[b],st+[nf[b]],spl)   
+
+def subt(nnf,st):
+    nf = nnf[:]
+    for p in st:
+      popped = False
+      for n in range(len(nf)):       
+       if not popped:   
+        if p == nf[n]:
+          nf.pop(n)
+          popped = True
+    return nf
             
-gf(f[::-1],0,1,[],t,depth[0])
+gf(f[::-1],0,1,[],t)
+p1 = ''
 qel.sort()
-print ('part 1 -',qel[0])
+p1,done = '',False
+for qp in qel:
+  if not done:    
+    nf = subt(f[:],qp[1])
+    if okay(nf,0,3,t):      
+      p1 = 'part 1 - ' + str(qp[0])
+      done = True
 qel = []
 depth[0] = len(f)
 gf(f[::-1],0,1,[],q)
 qel.sort()
-print ('part 2 -',qel[0])
+p2,done = '',False
+for qp in qel:
+  if not done:    
+    nf = subt(f[:],qp[1])
+    if okay(nf,0,4,q):      
+      p2 = 'part 2 - '+str(qp[0])
+      done = True
+print (p1)
+print (p2)
