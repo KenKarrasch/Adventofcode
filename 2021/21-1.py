@@ -1,4 +1,4 @@
-r = [int(i) for i in open('te').read().split()]
+r = [int(i) for i in open('21-1.txt').read().split()]
 ct = p = 0
 
 for i in r:
