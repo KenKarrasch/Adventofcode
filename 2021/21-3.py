@@ -1,5 +1,5 @@
 r = open('21-3.txt').read().split('\n')
-#solve times: pt1 - 17mins, pt2 - 25mins (42min total)
+#solve times: pt1 - 17mins, pt2 - 25mins (42min total) (late start due to christmas party)
 ct = [0]*len(r[0])
 for i in r:
     for j in range(len(i)):
