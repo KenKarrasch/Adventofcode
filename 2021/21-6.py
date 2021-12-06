@@ -1,7 +1,7 @@
 rd = [int(i) for i in open('21-6.txt').read().split(',')]
 
 # Part 1 straightforward, part 2, I used a 'divide and conquer' approach, solved for 128 depth for each case 0 to 8, store in dictionary.
-# Then solve each element in the input list, then tallied up.
+# Then solve each element in the input list, then tallied up. It could run much quicker than what I have here.
 
 f = rd[:]
 for j in range(80):
@@ -32,9 +32,8 @@ for t in rd:
         f.append(9)
  am = 0
  if t not in d256:
-   for k in f:
-     am += ds[k]
+   for k in f: am += ds[k]
    d256[t] = am
  tly += d256[t]
  print(t,len(f))
-print 'part 2 -',tlyGet 
+print 'part 2 -',tly
