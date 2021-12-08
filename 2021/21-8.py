@@ -1,10 +1,22 @@
 import itertools
+# started with a deductive algorithm but gave up
+# ended up brute forcing it
 
 f = open('21-8.txt').read().split('\n')
 r,ot = [],[]
 for i in f:
     r.append(i.split(' | ')[0].split())
     ot.append(i.split(' | ')[1].split())
+    
+ct = 0
+for u in ot:
+  g = 0
+  for j in u:
+    if len(j) in [2,4,3,7]:
+         g += 1
+  ct += g
+        
+print 'part 1 -',ct
 perms = [list(i) for i in itertools.permutations(range(7),7)]
 dt = {} # 7 seg display
 dt[0] = 'abcefg'
@@ -55,5 +67,5 @@ for i in range(len(r)):
     for j in range(len(outn)):
         if sorted(outn[j]) == sorted(ns): num = j + num*10       
   tot += num
-  print(i,'of',len(r))
-print(tot)
+  print i,'of',len(r)
+print 'part 2 -',tot
