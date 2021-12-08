@@ -38,7 +38,7 @@ for i in range(len(r)):
   for mp in perms: 
     dn = False
     if not dn: 
-        np,nr = list(mp),nr        
+        np,nr = list(mp),[]      
         for h in r[i]:
             ns = ''
             for c in h:
