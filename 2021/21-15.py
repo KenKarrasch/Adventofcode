@@ -1,7 +1,10 @@
-f = open('21-15test.txt').read().split('\n')
+f = open('21-15.txt').read().split('\n')
 # Initially botched the modulo 9, it looked okay so I was debugging the 
 # wrong part of my code. Very slow to compute, Will probably code it 
 # in Java when I get a chance.
+# Edit: found a optimisation, maintain a list
+# of places been, instead checking the entire 
+# grid each time
 
 gr,b = [],[]
 for i in f:
@@ -38,26 +41,34 @@ def gt(x,y):
     return 100000000
 
 ds,dn = 0,False
+ocl = [[0,0,0]]
 while not dn:
     ds += 1
-    print(ds)    
-    cl = []
-    for i in range(sz):
-      for j in range(sz):
+    if ds%100==0: print ds,len(ocl)
+    for e in ocl:
+      i,j,dr = e[0],e[1],e[2]
+      if dr == ds-1:
         if b[i][j] == ds-1:
           for dx,dy in s:
              if not(dx == 0 and dy == 0):
               d = b[i][j] + gt(i+dx,j+dy)
               if d < 100000000:
                if d < b[i+dx][j+dy]:
-                cl.append([i+dx,j+dy,d])                
+                if [i+dx,j+dy,d] not in ocl:
+                 ocl.append([i+dx,j+dy,d])                
                 if i+dx == sz-1:
                   if j+dy == sz-1:                     
-                     print( 'part 2',d)                     
+                     if not dn: print( 'part 2',d)                     
                      dn = True
                 if i+dx == (sz/5)-1:
                   if j+dy == (sz/5)-1:
                      pt1 = d
-    for i in cl:
+    for i in ocl:
         b[i[0]][i[1]] = i[2]
+    sc = 0
+    while sc < len(ocl):
+        if ocl[sc][2] < ds-1:
+            del ocl[sc]
+        else: sc += 1
+    
 print('part 1',pt1)
