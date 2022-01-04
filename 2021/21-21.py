@@ -1,6 +1,6 @@
 f = open('21-21.txt').read().split('\n')
 
-# good problem for dp
+# good problem for dynamic programming (DP) technique, aka Memoisation
 
 p = [int(i[-1]) for i in f]
 
