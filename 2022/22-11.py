@@ -1,5 +1,6 @@
 import copy
 # Chinese remainder theorem
+# Tag teamed this solution with Dave Haley, although I was on the right track using the CRT Dave gave me the confidence I follow it through.
 
 f = open('22-11.txt').read().split('\n')
 
