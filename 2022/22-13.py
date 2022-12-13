@@ -1,10 +1,14 @@
 import copy
 f = open('22-13.txt').read().split('\n\n')
 # Part 1
-# incorrectly assumed inputs where in the range 0 to 9 (as hinted in the same data), used a kludge to handle 10 in the input,
-# i.e. convert 10 to a, then convert a back to 10, couldn't be bothered to write a proper parser.
+# The input is clearly identical to Pythons list data structure.  Wrote code to convert from string to the list data. I am 
+# pretty sure there is an inbuilt Python function to convert, I did it the hard way.
 #
-# Took a bit of if-then-elses to distinguish between trees, branches and leaves, but got there in the end.
+# I incorrectly assumed inputs where in the range 0 to 9 (as kind of hinted in the sample data), it is actually 0 to 10, used a kludge to
+# handle 10 in the input, i.e. convert 10 to 'a', then convert 'a' back to 10 in th list data, I couldn't be bothered to write a proper parser.
+#
+# Took a bit of if-then-elses to distinguish between trees, branches and leaves, but got there in the end. Used to 'type' function to distinguish
+# between branches (lists) and leafs (integers)
 
 # Part 2
 # At first glance a sorting algorithm seemed required, The structure of the data input was clearly hinting at using a Merge sort.
@@ -84,9 +88,7 @@ for ps in range(len(f)):
     tl += ps+1
 
 print('part 1 -',tl)
-
 nf = []
-
 for ps in range(len(f)):  
   p = f[ps].split()  
   nf.append(copy.deepcopy(p[0]))
