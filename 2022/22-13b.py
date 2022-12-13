@@ -3,6 +3,7 @@ f = open('22-13.txt').read().split('\n\n')
 # like shooting fish in a barrel using 
 # pythons eval function
 
+
 n = '1234567890a'
 
 def cms(ob1,ob2):
@@ -47,9 +48,9 @@ for ps in range(len(f)):
   nf.append(copy.deepcopy(p[1]))
 ct2,ct6 = 1,2
 for i in nf:
-    if cmp(i,'[[2]]') < 0:
+    if cms(eval(i),[[2]]) < 0:
         ct2 += 1
 for i in nf:
-    if cmp(i,'[[6]]') < 0:
+    if cms(eval(i),[[6]]) < 0:
         ct6 += 1
 print('part 2 -',ct2*ct6)
