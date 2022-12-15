@@ -1,6 +1,8 @@
 import re
 f = open('22-15.txt').read().split('\n')
 
+# Started late due to Christmas shopping
+#
 # I did the slow solution and was taking a few minutes for part A, so I went for a better solution
 # The best way I could think of was to find the intersection points of each diamond.
 # then sorted them, then see where they overlap and rationalise, then added them up.
