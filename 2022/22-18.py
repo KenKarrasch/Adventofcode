@@ -1,6 +1,6 @@
 f = open('22-18.txt').read().split('\n')
 
-# Part 1 - Straightforward 13min solve.
+# Part 1 - Straightforward 13min solve, placed 1811th
 # Part 2 - put the object in a bathtub, see where the water goes
 
 q = []
