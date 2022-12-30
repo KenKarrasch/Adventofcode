@@ -6,13 +6,19 @@ f = open('22-16.txt').read().split('\n')
 
 # Part 2 - 
 #  set timer to 26 mins.
-#  do a search as before, taking note of the paths taken
 #
-#  for valve that can open form a list of paths (from above) that didn't vist them.
+#  New Version - the previous version assumed the best single solution will be part of the best combined solution (part 2), which
+#  worked for my input but not others.  This is a general solution with finds the best pair combined.
+#
+#  solution :-
+#
+#  search algorithm from part one stores every possible solution and the flow amount for each possibility
+#
+#  Set up a set, for each valve that can open, form a list of paths that didn't visit them.
 #
 #  Look at each path, then using set intersection work out which paths did not visit the same valves.
 #  keep track of best total
-
+#  
 #  Takes about 10min, may want to put on a cup of tea while waiting.
 
 # Part 1 --------------------------------
