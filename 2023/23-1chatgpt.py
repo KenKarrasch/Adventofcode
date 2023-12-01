@@ -1,7 +1,7 @@
 #ChatGPT input
 # in python read in a file that has lines with letters and numbers, extract the first and last digit in each string to form a two digit number, (if there is only one digit, use digit as the first and last), then add the numbers
 
-# 5 min solve with Chat GPT
+# 5 min solve with Chat GPT, This solution was done after I completed my own solution
 
 def process_file(file_path):
     total_sum = 0
