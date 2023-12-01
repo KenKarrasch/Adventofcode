@@ -1,5 +1,8 @@
 fi = open('23-1.txt').read().split('\n')
 
+# part 1 okay 10min, part 2, 30min - phone battery ran flat, when recharged, realised some numbers can overlap, e.g. "eightwo" is 82, solution to replace words eg. "one", replace with "one1one", 
+# then run it through the same meatgrinder for part 1. Going through forums, it looks like other people had the the same thought.
+
 ns = ['zero','one','two','three','four','five','six','seven','eight','nine']
 nm = '1234567890'
 
