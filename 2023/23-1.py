@@ -1,4 +1,4 @@
-fi = open('t3.txt').read().split('\n')
+fi = open('23-1.txt').read().split('\n')
 
 ns = ['zero','one','two','three','four','five','six','seven','eight','nine']
 nm = '1234567890'
