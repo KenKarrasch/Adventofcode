@@ -1,6 +1,5 @@
 f = open('23-9.txt').read().split('\n')
-# Super easy one today
-print(f)
+# super easy one today
 sqsb = []
 for s in f:
     sqs = []
@@ -15,18 +14,17 @@ for s in f:
       sqs.append(ns)    
       if ns.count(0) == len(ns):
          dn = True
-      pos += 1
-    print(sqs)
+      pos += 1    
     sqsb.append(sqs)
-
-ty = 0
+pt2 = pt1 = 0
 
 for sqs in sqsb:
-   am = 0
-   print('sqs',sqs)
-   for sq in sqs[::-1]:
-        print('sq',sq)        
-        am = sq[0] - am
-        print('am',am)         
-   ty += am
-print(ty)
+   d2 = d1 = 0   
+   for sq in sqs[::-1]:        
+        d2 = sq[0] - d2                
+        d1 += sq[-1]    
+   pt2 += d2
+   pt1 += d1
+
+print('part 1',pt1)
+print('part 2',pt2)
