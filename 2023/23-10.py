@@ -1,5 +1,6 @@
 f = open('23-10.txt').read().split('\n')
 
+# Straightforward BFS for part 1 and 2.  I got around the adjacent pipes by expanding the grid out x2. 
 
 g = [[y for y in l] for l in f]
 
