@@ -1,6 +1,10 @@
 f = open('23-18.txt').read().split('\n')
 
 # invented a triangle summing algorithm, then added the border
+# EDIT: after looking on the internet afterwards, the algorithm I supposedly 
+# invented is actually called the 'Shoelace' algorithm invented in different 
+# ways many times before. Mine seems to be the same as
+# as Gauss trapezoid formula. haha
 
 dr = {'R': [-1,0],'L':[1,0],'U':[0,1],'D':[0,-1]}
 
