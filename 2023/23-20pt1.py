@@ -1,5 +1,3 @@
-from collections import defaultdict
-
 f = open('23-20.txt').read().split('\n')
 m = {}
 wfs = {} #workflows
@@ -10,7 +8,6 @@ for line in f:
   wfs[st] = op
   m[st[1:]] = st[0]
 
-cj = defaultdict(list)
 lct,hct = 0,0  # high/low counts
 
 pls = []
@@ -30,7 +27,6 @@ for stt,dst in wfs.items():
       if sts not in st:
         st[sts] = {}
       st[sts][stt] = 'low'
-    cj[sts].append(stt)
 
 for t in range(1000):
   pls.append(('broadcaster', 'button', 'lp'))
