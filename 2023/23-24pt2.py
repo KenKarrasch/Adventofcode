@@ -13,7 +13,7 @@ import copy
 # I'm pretty sure an analytical (simultaneous equations) method could be used.
 
 
-f = open('23-24t.txt').read().split('\n')
+f = open('23-24.txt').read().split('\n')
 
 ex = False
 
@@ -46,16 +46,16 @@ for i in vct[0:3]:
     nvct.append([np,nv])
 
 swp = 300
-r = [-65,-86,296]
+
 vc = []
-for x in range(r[0],r[0]+1):
+for x in range(-swp,swp):
   print(x,'of -300 to 300')
   for i in range(len(nvct)):   
     nvct[i][1][0] = vct[i][1][0] - x              
-  for y in range(r[1],r[1]+1):
+  for y in range(-swp,swp):
     for i in range(len(nvct)):    
         nvct[i][1][1] = vct[i][1][1] - y        
-    for z in range(r[2],r[2]+1):
+    for z in range(-swp,swp):
         for i in range(len(nvct)):    
             nvct[i][1][2] = vct[i][1][2] - z            
         hit = True
@@ -80,3 +80,4 @@ for x in range(r[0],r[0]+1):
             print('velocity',x,y,z)
 
 print('part 2',int(ipx) + int(ipy) + int(z2))
+
