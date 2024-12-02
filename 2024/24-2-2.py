@@ -1,7 +1,7 @@
 
 # Online Python - IDE, Editor, Compiler, Interpreter
 
-f = open("day1.txt").read().split('\n')
+f = open("24-2.txt").read().split('\n')
 print(f)
 
 ct = 0
