@@ -3,6 +3,8 @@
 
 # another 5 min solve, I'm sure the harder ones are coming. Started late due to meetings
 
+# Data has alot of other words, can't help but wonder if there input has some other hidden meaning.
+
 f = open("24-3.txt").read()
 
 import re
