@@ -1,7 +1,7 @@
 
 # Online Python - IDE, Editor, Compiler, Interpreter
 
-# another 5 min solve, I'm sure the harder ones are coming.
+# another 5 min solve, I'm sure the harder ones are coming. Started late due to meetings
 
 f = open("24-3.txt").read()
 
