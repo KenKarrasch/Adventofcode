@@ -10,17 +10,17 @@ def calculate_mul_sum(text):
     matches = re.findall(pattern, text)
     
     total = 0
-    ignore = False
-    
-    for match in matches:
+    ignore = False    
+    for match in matches:        
         if match == "don't()":
             ignore = True
         elif match == "do()":
             ignore = False
-        elif not ignore and match.startswith("mul"):
-            x, y = map(int, re.findall(r'\d+', match))
-            total += x * y
-    
+        elif not ignore and match.startswith("mul"):            
+            if 1000 > int(match.split(',')[0].split('(')[1]) > -1:
+                if 1000 > int(match.split(',')[1].split(')')[0]) > -1:
+                    x, y = re.findall(r'\d+', match)            
+                    total += int(x) * int(y)                
     return total
 
 text = f
