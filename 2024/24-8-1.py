@@ -39,17 +39,13 @@ for positions in letter_positions.values():
             # Generate all possible pairs
         for (y1, x1), (y2, x2) in combinations(positions, 2):
             print(y1, x1, y2, x2)
-            # Calculate midpoint
             ltr = grid[y1][x1]
             del_y = y1 - y2
             del_x = x1 - x2
-            print('dxy',del_x,del_y)
             for dr in [1,-1]:
                 nx = x1 - (del_x * dr)
                 ny = y1 - (del_y * dr)
-                print('nxny',nx,ny)
                 if 0 <= nx < width and 0 <= ny < height:                    
-                    # Place '#' at midpoint if it's not occupied by a letter
                     if grid[ny][nx] != ltr:
                         anb[ny][nx] = '#'
                     if grid[ny][nx] != ltr:
@@ -57,7 +53,6 @@ for positions in letter_positions.values():
                 nx = x2 + del_x * dr
                 ny = y2 + del_y * dr
                 if 0 <= nx < width and 0 <= ny < height:                    
-                    # Place '#' at midpoint if it's not occupied by a letter
                     if grid[ny][nx] != ltr:
                         anb[ny][nx] = '#'
                     if grid[ny][nx] != ltr:
