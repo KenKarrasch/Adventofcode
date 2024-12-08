@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Target Solver</title>
+</head>
+<body>
+    <h1>Number Target Solver</h1>
+    <p>Check if a target can be reached using specified numbers.</p>
+
+    <textarea id="inputData" rows="10" cols="50" placeholder="Enter data in format: target: num1 num2 num3\n..."></textarea>
+    <br>
+    <button onclick="processData()">Process</button>
+
+    <h2>Results</h2>
+    <div id="results"></div>
+
+    <script>
+        function canReachTargetIterative(numbers, target) {
+            let stack = [[0, 0, ""]]; // [currentIndex, currentValue, expression]
+
+            while (stack.length > 0) {
+                let [index, currentValue, expression] = stack.pop();
+
+                // If we've used all numbers, check if the target is met
+                if (index === numbers.length) {
+                    if (currentValue === target) {
+                        return { found: true, expression };
+                    }
+                    continue;
+                }
+
+                // Get the next number
+                const nextNumber = numbers[index];
+
+                // Add the next number
+                stack.push([index + 1, currentValue + nextNumber, expression ? `${expression} + ${nextNumber}` : `${nextNumber}`]);
+
+                // Multiply the next number
+                stack.push([index + 1, currentValue !== 0 ? currentValue * nextNumber : nextNumber, expression ? `${expression} * ${nextNumber}` : `${nextNumber}`]);
+
+                // Concatenate the next number with the current value
+                if (expression) {
+                    const concatenatedValue = parseInt(`${currentValue}${nextNumber}`);
+                    stack.push([index + 1, concatenatedValue, `(${expression} || ${nextNumber})`]);
+                }
+            }
+
+            return { found: false, expression: null };
+        }
+
+        function processData() {
+            const input = document.getElementById("inputData").value;
+            const lines = input.trim().split("\n");
+            const resultsDiv = document.getElementById("results");
+            resultsDiv.innerHTML = ""; // Clear previous results
+
+            let total = 0;
+
+            lines.forEach(line => {
+                const [target, numbersStr] = line.split(":");
+                const numbers = numbersStr.trim().split(" ").map(Number);
+                const targetValue = parseInt(target);
+
+                const { found, expression } = canReachTargetIterative(numbers, targetValue);
+
+                if (found) {
+                    resultsDiv.innerHTML += `<p>Target ${targetValue} can be reached using: ${expression}</p>`;
+                    total += targetValue;
+                } else {
+                    resultsDiv.innerHTML += `<p>Target ${targetValue} cannot be reached with the given numbers.</p>`;
+                }
+            });
+
+            resultsDiv.innerHTML += `<p><strong>Part 2 Total:</strong> ${total}</p>`;
+        }
+    </script>
+</body>
+</html>
