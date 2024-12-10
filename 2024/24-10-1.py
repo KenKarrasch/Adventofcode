@@ -40,13 +40,6 @@ def find_unique_paths(grid):
     
     return unique_paths
 
-# Example usage
-def create_random_grid(rows, cols):
-    return [[random.randint(0, 9) for _ in range(cols)] for _ in range(rows)]
-
-# Create a random 5x5 grid
-random.seed(0)  # for reproducibility
-grd = create_random_grid(5, 5)
 
 print("Grid:")
 for row in grid:
