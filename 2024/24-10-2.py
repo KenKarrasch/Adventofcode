@@ -16,10 +16,6 @@ for i in f:
 
 print(grid)
 
-
-
-import random
-
 def find_paths(grid):
     rows, cols = len(grid), len(grid[0])
     all_paths = []
@@ -43,24 +39,7 @@ def find_paths(grid):
     
     return all_paths
 
-# Example usage
-def create_random_grid(rows, cols):
-    return [[random.randint(0, 9) for _ in range(cols)] for _ in range(rows)]
-
-# Create a random 5x5 grid
-random.seed(0)  # for reproducibility
-grd = create_random_grid(5, 5)
-
-print("Grid:")
-for row in grid:
-    print(row)
-
 paths = find_paths(grid)
 print(f"\nNumber of paths: {len(paths)}")
 
 print("\nPaths:")
-#for i, path in enumerate(paths, 1):
-    #print(f"Path {i}:")
-    #for x, y in path:
-        #print(f"  ({x}, {y}) -> {grid[x][y]}")
-    #print()
