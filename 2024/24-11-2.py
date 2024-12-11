@@ -44,5 +44,5 @@ def transform_numbers(numbers,bks):
       ss += ns
     print(ss)    
     return 
-  
-transformed = transform_numbers(numbers,75)
+
+transform_numbers(numbers,75)
