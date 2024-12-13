@@ -1,5 +1,16 @@
 f = open('24-11.txt').read() # '5 89749 6061 43 867 1965860 0 206250'
 
+# the trick with this one is:
+
+# - the stone order is not important, stones don't affect any other stones
+
+# - instead of keeping an monolithic array of stones, keep a list of stones you currently have and
+#    and how many of each type of stones you have.
+#   e.g.  array [ 2, 5, 12, 8, 2, 6] would instead be stored as 
+#    [ [2, 3], [5,1], [12,1], [8,1], [6,1]]
+#   where [2,3] means you have 3 stones with label '2'
+#   do this for each blink
+
 numbers = f.split()
 
 def transform_numbers(numbers,bks):
