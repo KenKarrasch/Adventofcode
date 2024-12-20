@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Race Condition Puzzle Solver</title>
+</head>
+<body>
+    <h1>Race Condition Puzzle Solver</h1>
+    <textarea id="input" rows="20" cols="50"></textarea>
+    <br>
+    <button onclick="solve()">Solve</button>
+    <p id="result"></p>
+
+    <script>
+        function solve() {
+            const input = document.getElementById('input').value;
+            const grid = parseInput(input);
+            const start = findPosition(grid, 'S');
+            const end = findPosition(grid, 'E');
+            
+            const shortestPath = findShortestPath(grid, start, end);
+            const cheats = findCheats(grid, shortestPath);
+            
+            const result = cheats.filter(cheat => cheat.timeSaved >= 100).length;
+            document.getElementById('result').textContent = `Number of cheats saving at least 100 picoseconds: ${result}`;
+        }
+
+        function parseInput(input) {
+            return input.trim().split('\n').map(row => row.split(''));
+        }
+
+        function findPosition(grid, char) {
+            for (let y = 0; y < grid.length; y++) {
+                for (let x = 0; x < grid[y].length; x++) {
+                    if (grid[y][x] === char) return {x, y};
+                }
+            }
+        }
+
+        function findShortestPath(grid, start, end) {
+            const queue = [[start]];
+            const visited = new Set();
+
+            while (queue.length > 0) {
+                const path = queue.shift();
+                const {x, y} = path[path.length - 1];
+
+                if (x === end.x && y === end.y) return path;
+
+                if (!visited.has(`${x},${y}`)) {
+                    visited.add(`${x},${y}`);
+                    const neighbors = [
+                        {x: x+1, y}, {x: x-1, y},
+                        {x, y: y+1}, {x, y: y-1}
+                    ];
+
+                    for (const neighbor of neighbors) {
+                        if (isValidMove(grid, neighbor)) {
+                            queue.push([...path, neighbor]);
+                        }
+                    }
+                }
+            }
+        }
+
+        function isValidMove(grid, {x, y}) {
+            return y >= 0 && y < grid.length && x >= 0 && x < grid[y].length && grid[y][x] !== '#';
+        }
+
+        function findCheats(grid, shortestPath) {
+            const cheats = [];
+            for (let i = 0; i < shortestPath.length - 1; i++) {
+                for (let j = i + 2; j < shortestPath.length; j++) {
+                    const start = shortestPath[i];
+                    const end = shortestPath[j];
+                    const timeSaved = j - i - 1;
+                    if (canCheat(grid, start, end)) {
+                        cheats.push({start, end, timeSaved});
+                    }
+                }
+            }
+            return cheats;
+        }
+
+        function canCheat(grid, start, end) {
+            return Math.abs(start.x - end.x) + Math.abs(start.y - end.y) <= 2;
+        }
+    </script>
+</body>
+</html>
