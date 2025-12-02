@@ -26,3 +26,6 @@ for i in sq:
         if rtptn(s):
             tly += s
 print(tly)
+
+# Finish
+#2   2863   2250  ***
