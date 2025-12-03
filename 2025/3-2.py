@@ -15,3 +15,4 @@ tly = 0
 for i in f: 
     tly += gn(0,0,i,0)
 print(tly)
+#  3   9134   4353  *****
