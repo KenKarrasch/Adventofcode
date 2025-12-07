@@ -1,6 +1,6 @@
 f = open('25-7.txt').read().split('\n')
 
-# Another pretty good rank score
+# Another pretty good rank score for part 1, part 2 less so, changes strategies a few times, I was over-complicating it by using memoisation.
 # 7     174    502  **  pt1 
 # 7    5170   2713  ***  pt2
 
