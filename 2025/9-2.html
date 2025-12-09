@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Line Intersection Calculator</title>
+  <style>
+    body { font-family: monospace; padding: 20px; }
+    textarea { width: 100%; height: 240px; }
+    button { padding: 10px 20px; margin-top: 10px; }
+    pre { margin-top: 20px; background: #f0f0f0; padding: 10px; }
+  </style>
+</head>
+<body>
+  <h2>Paste 25-9.txt contents</h2>
+  <textarea id="input"></textarea><br>
+  <button onclick="run()">Run</button>
+
+  <pre id="output"></pre>
+
+<script>
+function onSegmentOpen(p, q, r, touch) {
+  if (touch) {
+    return (
+      Math.min(p[0], r[0]) < q[0] && q[0] < Math.max(p[0], r[0]) &&
+      Math.min(p[1], r[1]) < q[1] && q[1] < Math.max(p[1], r[1])
+    );
+  } else {
+    return (
+      Math.min(p[0], r[0]) <= q[0] && q[0] <= Math.max(p[0], r[0]) &&
+      Math.min(p[1], r[1]) <= q[1] && q[1] <= Math.max(p[1], r[1])
+    );
+  }
+}
+
+function orientation(p, q, r) {
+  const val = (q[1] - p[1]) * (r[0] - q[0]) - (q[0] - p[0]) * (r[1] - q[1]);
+  if (val === 0) return 0;
+  return val > 0 ? 1 : 2;
+}
+
+function segmentsIntersect(p1, q1, p2, q2, touch) {
+  const o1 = orientation(p1, q1, p2);
+  const o2 = orientation(p1, q1, q2);
+  const o3 = orientation(p2, q2, p1);
+  const o4 = orientation(p2, q2, q1);
+
+  if (o1 !== o2 && o3 !== o4) return true;
+
+  if (o1 === 0 && onSegmentOpen(p1, p2, q1, touch)) return true;
+  if (o2 === 0 && onSegmentOpen(p1, q2, q1, touch)) return true;
+  if (o3 === 0 && onSegmentOpen(p2, p1, q2, touch)) return true;
+  if (o4 === 0 && onSegmentOpen(p2, q1, q2, touch)) return true;
+
+  return false;
+}
+
+function run() {
+  const text = document.getElementById("input").value.trim();
+  const out = document.getElementById("output");
+
+  let f = text.split("\n")
+    .map(l => l.trim())
+    .filter(l => l.length > 0)
+    .map(l => {
+      const [x, y] = l.split(",").map(Number);
+      return [x, y];
+    });
+
+  f.sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+
+  let pr = [];
+
+  for (let p1 = 0; p1 < f.length; p1++) {
+    for (let p2 = p1 + 1; p2 < f.length; p2++) {
+      if (f[p1][0] === f[p2][0] || f[p1][1] === f[p2][1]) {
+        pr.push([f[p1], f[p2]]);
+      }
+    }
+  }
+
+  let szs = [];
+
+  for (let p1 = 0; p1 < f.length; p1++) {
+    for (let p2 = p1 + 1; p2 < f.length; p2++) {
+
+      let gd = true;
+
+      for (const p of pr) {
+        if (
+          f[p1] !== p[0] && f[p1] !== p[1] &&
+          f[p2] !== p[0] && f[p2] !== p[1]
+        ) {
+          if (segmentsIntersect(f[p1], f[p2], p[0], p[1], false)) {
+            gd = false;
+            break;
+          }
+        }
+      }
+
+      if (!gd) continue;
+
+      let le;
+      if (f[p1][1] < f[p2][1]) {
+        le = [[0, f[p1][1] + 1], [f[p1][0] + 1, f[p1][1] + 1]];
+      } else {
+        le = [[0, f[p1][1] - 1], [f[p1][0] + 1, f[p1][1] - 1]];
+      }
+
+      let ct = 0;
+      for (const p of pr) {
+        if (segmentsIntersect(le[0], le[1], p[0], p[1], false)) {
+          ct++;
+        }
+      }
+
+      for (const pt of f) {
+        if (pt !== f[p1] && pt !== f[p2]) {
+          if (f[p1][1] < f[p2][1]) {
+            if (
+              pt[0] > f[p1][0] && pt[0] < f[p2][0] &&
+              pt[1] > f[p1][1] && pt[1] < f[p2][1]
+            ) gd = false;
+          } else {
+            if (
+              pt[0] > f[p1][0] && pt[0] < f[p2][0] &&
+              pt[1] < f[p1][1] && pt[1] > f[p2][1]
+            ) gd = false;
+          }
+        }
+      }
+
+      if (ct % 2 !== 1) gd = false;
+
+      if (gd) {
+        const sz = (1 + Math.abs(f[p1][0] - f[p2][0])) *
+                   (1 + Math.abs(f[p1][1] - f[p2][1]));
+        szs.push([sz, f[p1], f[p2]]);
+      }
+    }
+  }
+
+  if (szs.length === 0) {
+    out.textContent = "No valid result";
+    return;
+  }
+
+  const maxVal = Math.max(...szs.map(x => x[0]));
+  out.textContent = maxVal;
+}
+</script>
+</body>
+</html>
