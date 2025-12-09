@@ -7,6 +7,8 @@ f = [y for y in open('25-9.txt').read().split('\n')]
 
 # Also, borrowed the line intersect code from my Everybody codes, solution day 15, "Ducks and Dragons", worked a treat
 
+# My HTML/Javascript code runs much faster
+
 nf = []
 
 for i in f:
