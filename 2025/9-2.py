@@ -5,6 +5,8 @@ f = [y for y in open('25-9.txt').read().split('\n')]
 # Technically not a general solution, relies on Only two coordinates share the same 
 # line vertically or horizontally, and coordinates must be two or more apart
 
+# Also, borrowed the line intersect code from my Everybody codes, solution day 15, "Ducks and Dragons", worked a treat
+
 nf = []
 
 for i in f:
