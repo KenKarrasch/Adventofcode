@@ -7,11 +7,7 @@ for r in f:
     rl[st] = es
 
 Q = ['you']
-
-print(rl.items())
-
 tly = 0
-SEEN = []
 
 while Q:
     pl = Q.pop()
@@ -21,5 +17,4 @@ while Q:
     if pl in rl.keys():
         for i in rl[pl]:
             Q.append(i)
-
 print(tly)
