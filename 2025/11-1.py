@@ -1,4 +1,5 @@
 f = open('in.txt').read().split('\n')
+# 11     496   1593  **
 
 rl = {}
 for r in f:
