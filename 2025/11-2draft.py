@@ -1,7 +1,8 @@
+from functools import cache
+f = open('25-11.txt').read().split('\n')
+# 11    6393   3901  ***
 
-f = open('ex.txt').read().split('\n')
-
-# works for example, need to see what tricks they are up to
+#  Turned out to be bazillion paths, used basically same solution as day 7 using caching
 
 rl = {}
 for r in f:
@@ -9,30 +10,21 @@ for r in f:
     es = r.split(':')[1].split()
     rl[st] = es
 
-#for i in rl.items():
-   # print(i)
-
-Q = [['svr',[]]]
-
-tly = 0
-SEEN = []
-
-while Q:
-    pl,pt = Q.pop()
-    #print(pl,pt[:-1])
+@cache
+def score(pl,seendac,seenfft):
+    if pl == 'out' and seendac and seenfft:
+        return 1
     if pl == 'out':
-        #print(pt)
-        if 'dac' in pt and 'fft' in pt:
-            tly += 1
-        continue
-    if pl in pt[:-1]:
-        #print(pl,pt[:-1])
-        continue
-    if pl in rl.keys():
-        for i in rl[pl]:
-            npt = pt[:]
-            if True: # i in ['dac','fft']:
-                npt.append(i)
-            Q.append([i,npt])
-
-print(tly)
+        return 0
+    tly = 0
+    for np in rl[pl]:
+        sd = seendac        
+        sf = seenfft        
+        if np == 'dac':
+            sd = True
+        if np == 'fft':
+            sf = True            
+        tly += score(np,sd,sf)
+    return tly
+    
+print(score('svr',False,False))
