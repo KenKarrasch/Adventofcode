@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>25-10-2-14 JS</title>
+</head>
+<body>
+  <h1>25-10-2-14 converter</h1>
+
+  <textarea id="inputData" rows="10" cols="80" placeholder="Paste contents of 25-10.txt here"></textarea>
+  <br>
+  <button id="runBtn">Run</button>
+
+  <pre id="output"></pre>
+
+  <script>
+    // Simple memoization helper (analogous to functools.cache) [web:11]
+    function memoize(fn) {
+      const cache = new Map();
+      return function(...args) {
+        const key = JSON.stringify(args);
+        if (cache.has(key)) {
+          return cache.get(key);
+        }
+        const res = fn.apply(this, args);
+        cache.set(key, res);
+        return res;
+      };
+    }
+
+    document.getElementById('runBtn').addEventListener('click', () => {
+      const text = document.getElementById('inputData').value;
+      const lines = text.split('\n');
+
+      const btns = [];
+      const nmss = [];
+
+      // Parse lines like Python version
+      for (const dt of lines) {
+        if (!dt.trim()) continue;
+
+        const btPart = dt.split(']')[1].split('{')[0].trim();
+        const btTokens = btPart.split(/\s+/);
+        const bt1 = btTokens.map(x => x.replace(')', '').replace('(', ''));
+        const bts = bt1.map(x => x.split(',').map(y => parseInt(y, 10)));
+
+        const nmsStr = dt.split('{')[1].split('}')[0];
+        const nms = nmsStr.split(',').map(y => parseInt(y, 10));
+
+        const btsa = [];
+        for (let i = 0; i < bts.length; i++) {
+          const bb = new Array(nms.length).fill(0);
+          for (const b of bts[i]) {
+            bb[b] = 1;
+          }
+          btsa.push(bb.slice()); // store as array of 0/1
+        }
+
+        btns.push(btsa);
+        nmss.push(nms);
+      }
+
+      let pattern_costs = {};
+
+      // Recursive solver with memoization; uses outer pattern_costs like Python code [web:4]
+      let solve_single_aux = memoize(function(goalArr) {
+        // goalArr is an array of ints
+        let allZero = true;
+        for (const v of goalArr) {
+          if (v !== 0) {
+            allZero = false;
+            break;
+          }
+        }
+        if (allZero) return 0;
+
+        let answer = 999999999;
+
+        for (const key in pattern_costs) {
+          const pattern = pattern_costs[key].pattern;
+          const pattern_cost = pattern_costs[key].cost;
+
+          let gd = true;
+          for (let pos = 0; pos < goalArr.length; pos++) {
+            const i = pattern[pos];
+            const j = goalArr[pos];
+            if (!(i <= j && (i % 2) === (j % 2))) {
+              gd = false;
+              break;
+            }
+          }
+
+          if (gd) {
+            const ng = new Array(goalArr.length);
+            for (let i = 0; i < goalArr.length; i++) {
+              ng[i] = (goalArr[i] - pattern[i]) / 2;
+            }
+
+            const minbutns = 2 * solve_single_aux(ng) + pattern_cost;
+            if (minbutns < answer) {
+              answer = minbutns;
+            }
+          }
+        }
+
+        return answer;
+      });
+
+      function combinations(indices, r) {
+        // Simple n-choose-r combination generator equivalent to itertools.combinations [web:7]
+        const result = [];
+        const combo = [];
+
+        function backtrack(start, depth) {
+          if (depth === r) {
+            result.push(combo.slice());
+            return;
+          }
+          for (let i = start; i < indices.length; i++) {
+            combo[depth] = indices[i];
+            backtrack(i + 1, depth + 1);
+          }
+        }
+
+        backtrack(0, 0);
+        return result;
+      }
+
+      let tly = 0;
+      let outLines = [];
+
+      for (let p = 0; p < nmss.length; p++) {
+        const tgt = nmss[p];
+        const lt = tgt.length;
+        const nb = btns[p].length;
+
+        pattern_costs = {};
+
+        const indices = Array.from({ length: nb }, (_, i) => i);
+        for (let pl = 0; pl <= nb; pl++) {
+          const cmbs = combinations(indices, pl);
+          for (const c of cmbs) {
+            const sgn = new Array(lt).fill(0);
+            for (const b of c) {
+              const bc = btns[p][b];
+              for (let ltr = 0; ltr < bc.length; ltr++) {
+                sgn[ltr] += bc[ltr];
+              }
+            }
+            const key = JSON.stringify(sgn);
+            if (!(key in pattern_costs)) {
+              pattern_costs[key] = { pattern: sgn.slice(), cost: pl };
+            }
+          }
+        }
+
+        // Clear memoization by re-wrapping the function
+        solve_single_aux = memoize(function(goalArr) {
+          let allZero = true;
+          for (const v of goalArr) {
+            if (v !== 0) {
+              allZero = false;
+              break;
+            }
+          }
+          if (allZero) return 0;
+
+          let answer = 999999999;
+
+          for (const key in pattern_costs) {
+            const pattern = pattern_costs[key].pattern;
+            const pattern_cost = pattern_costs[key].cost;
+
+            let gd = true;
+            for (let pos = 0; pos < goalArr.length; pos++) {
+              const i = pattern[pos];
+              const j = goalArr[pos];
+              if (!(i <= j && (i % 2) === (j % 2))) {
+                gd = false;
+                break;
+              }
+            }
+
+            if (gd) {
+              const ng = new Array(goalArr.length);
+              for (let i = 0; i < goalArr.length; i++) {
+                ng[i] = (goalArr[i] - pattern[i]) / 2;
+              }
+
+              const minbutns = 2 * solve_single_aux(ng) + pattern_cost;
+              if (minbutns < answer) {
+                answer = minbutns;
+              }
+            }
+          }
+
+          return answer;
+        });
+
+        const butnspressed = solve_single_aux(tgt.slice());
+        outLines.push(
+          'solved ' +
+          butnspressed +
+          ' ' +
+          JSON.stringify(tgt) +
+          ', ' +
+          (p + 1) +
+          ' in ' +
+          nmss.length
+        );
+        tly += butnspressed;
+      }
+
+      outLines.push('total ' + tly);
+      document.getElementById('output').textContent = outLines.join('\n');
+    });
+  </script>
+</body>
+</html>
